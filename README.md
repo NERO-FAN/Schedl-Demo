@@ -54,13 +54,13 @@ Schedl is a social calendar application that blends traditional calendar apps wi
 * As a user, I should be able to create a post from a list of past/occuring events.
 * As a user, I should be able to view, edit, and delete my posts.
 * As a user, I should be able to view my friends posts.
-- [ ] Schedule
+- [x] Schedule
 * As a user, I should be able to log in and create a schedule.
 * As a user, I should be able to view my new schedule and create an event.
 * As a user, I should be able to view, edit, and delete my event.
-- [ ]  Search
+- [x]  Search
 * As a user, I should be able to search for any other users on the application and view their profile.
-- [ ] Profile
+- [x] Profile
 * As a user, I should be able to see my events in my profile.
 * As a user, I should be able to see my friends profile page's and see their schedules.
 
@@ -78,17 +78,17 @@ Schedl is a social calendar application that blends traditional calendar apps wi
 - [ ] Feed
 * Friend Profile
 * Event Details
-- [ ] Schedule
+- [x] Schedule
 * Event Details
 * Create Event
 * Create Blend
 * Create Schedule
 * Edit Event
 * Search for Events
-- [ ] Search
+- [x] Search
 * Profile
 * Event Details
-- [ ] Profile
+- [x] Profile
 * Event Details
 * Settings
 * Friends
