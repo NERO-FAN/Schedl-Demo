@@ -100,6 +100,7 @@ Schedl is a social calendar application that blends traditional calendar apps wi
 
 [Add picture of your hand sketched wireframes in this section]
 <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="IMG_0323.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
