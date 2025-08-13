@@ -117,11 +117,135 @@ Schedl is a social calendar application that blends traditional calendar apps wi
 [This section will be completed in Unit 9]
 
 ### Models
-
-[Add table of models]
+## User
+- id: String
+- username: String
+- email: String
+- displayName: String
+- profileImage: String
+- createdAt
+## Schedule
+- id: String
+- userId: String
+- title: String
+- createdAt: Double
+## Event
+- id: String
+- scheduleId: String
+- userId: String
+- title: String
+- startDate: Double
+- startTime: Double
+- endTime: Double
+- repeatingDays: [String]?
+- endDate: Double
+- locationName: String
+- locationAddress: String
+- latitude: Double
+- longitude: Double
+- taggedUsers: [String]
+- color: String
+- notes: String
+- createdAt: Double
+## Blend
+- id: String
+- userId: String
+- title: String
+- invitedUsers: [String]
+- scheduleIds: [String]
+- colors: [String: String]
+## EventInvite
+- fromUserId: String
+- toUserId: String
+- invitedEventId: String
+- eventDate: Double
+- startTime: Double
+- endTime: Double
+- senderName: String
+- senderProfileImage: String
 
 ### Networking
 
 - [Add list of network requests by screen ]
+  Feed - No network requests at the moment as it lacks functionality
+  Schedule:
+  - func fetchAllSchedules(userId: String) async throws -> [Schedule]
+  - func fetchSchedule(scheduleId: String) async throws -> Schedule
+  - func fetchScheduleId(userId: String) async throws -> String
+  - func fetchScheduleIds(userIds: [String]) async throws -> [String]
+  - func createSchedule(userId: String, title: String) async throws -> Schedule
+  - func updateSchedule(scheduleId: String, title: String) async throws -> Void
+  - func deleteSchedule(scheduleId: String, userId: String) async throws -> Void
+  - func observeAddedEvents(scheduleId: String, completion: @escaping (String) -> Void) -> DatabaseHandle
+  - func observeRemovedEvents(scheduleId: String, completion: @escaping (
+        String) -> Void) -> DatabaseHandle
+  - func observeUpdatedEvents(scheduleId: String, completion: @escaping (
+        String) -> Void) -> DatabaseHandle
+  - func removeScheduleObserver(handle: DatabaseHandle, scheduleId: String)
+  - func createBlendSchedule(ownerId: String, scheduleId: String, title: String, invitedUsers: [String], colors: [String: String]) async throws -> String
+    
+  - func fetchAllBlendSchedules(userId: String) async throws -> [Blend]
+    
+  - func fetchBlendSchedule(blendId: String) async throws -> Blend
+    
+  - func observeAddedBlendSchedules(blendId: String, completion: @escaping (String) -> Void) -> DatabaseHandle
+    
+  - func observeRemovedBlendSchedules(blendId: String, completion: @escaping (String) -> Void) -> DatabaseHandle
+    
+  - func observeUpdatedBlendSchedules(blendId: String, completion: @escaping (String) -> Void) -> DatabaseHandle
+  - func removeBlendObserver(handle: DatabaseHandle, blendId: String)
+  Search:
+  - func fetchMatchingUsers(username: String) async throws -> [String]
+  - func fetchUserSearchInfo(username: String) async throws -> [SearchInfo]
+  - func fetchFriendsSearchInfo(friendIds: [String]) async throws -> [SearchInfo]
+  - func fetchUserInfo(userId: String) async throws -> SearchInfo
+  Profile:
+  - func fetchUser(userId: String) async throws -> User
+  - func fetchUsers(userIds: [String]) async throws -> [User]
+  - func saveNewUser(userId: String, username: String, email: String, displayName: String) async throws -> User
+  - func updateProfileImage(newImage: UIImage, userId: String) async throws -> URL
+  - func updateProfileInfo(userId: String, username: String?, profileImage: UIImage?, email: String?) async throws -> Void
+  - func fetchUserIdByUsername(username: String) async throws -> String
+  - func fetchUserFriends(userId: String) async throws -> [User]
+  - func fetchNumberOfFriends(userId: String) async throws -> Int
+  - func isFriend(userId: String, otherUserId: String) async throws -> Bool
+  - func fetchUserNameById(userId: String) async throws -> String
+  - func fetchDisplayNameById(userId: String) async throws -> String
+  - func fetchFriendIds(userId: String) async throws -> [String]
+ 
+  - [Create basic snippets for each Parse network request]
+
+  Since the majority of the methods are using modern Swift's `async/await`, if a method is marked as `async` and returns an explicit type, we can call upon these like so:
+
+  **From the list of Profile Network Requests:**
+  ```swift
+  do {
+      let fetchedUser = try await UserService.shared.fetchUser("userid123456")
+  } catch {
+      print("The following error occured: \(error.localizedDescription)")
+  }
+  
 - [Create basic snippets for each Parse network request]
+  - Since the majority of the methods are using modern swift's async/await, if a method is marked as async and returns an explicit type, we can call upon these like so,
+  **From the list of Profile Network Requests:**  
+  ```swift
+    do {
+      let fetchedUser = try await UserService.shared.fetchUser("userid123456")
+    } catch {
+      print("The following error occured: \(error.localizedDescription)")
+    }
+  ```
+
+  **From the list of Schedule Network Requests:**
+  - If the method is async and the return type is Void, then
+  ```swift
+    do {
+      try await ScheduleService.shared.deleteSchedule("scheduleId123", "userId123456")
+    } catch {
+      print("The following error occured: \(error.localizedDescription)")
+    }
+  ```
+  
+  - Lastly, referring to the methods which are not marked async, such as the observer methods, these are executed using completion handlers which return types of DatabaseHandle, which are just      references to the Firebase observers that have been attached or are currently observing the specified database node. Whenever any action triggers the callback, some indicated node value is      sent through the escaping closure, which can represent new data, updated data, or removed/deleted data. It's important to save the returned DatabaseHandle so that we can remove them when they are no longer needed or in use.
+  
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
